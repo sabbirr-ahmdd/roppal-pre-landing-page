@@ -7,7 +7,14 @@
 <meta name="description" content="Create, discover and join events with your circle or the world. RSVP, split costs, chat — one place for all of it."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<script src="https://tally.so/widgets/embed.js"></script>
+<script>
+  function submitEmail(e) {
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value;
+    if (!email) return;
+    window.location.href = 'https://tally.so/r/yPRNNg?email=' + encodeURIComponent(email);
+  }
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -487,10 +494,63 @@
     margin-bottom: 32px;
   }
 
-  .tally-wrap {
-    max-width: 480px;
+  .email-form {
+    max-width: 460px;
     margin: 0 auto 16px;
+    display: flex;
+    gap: 8px;
+    background: var(--bg);
+    border: 1.5px solid var(--border-mid);
+    border-radius: 99px;
+    padding: 6px 6px 6px 20px;
+    transition: border-color .2s;
   }
+
+  .email-form:focus-within { border-color: var(--green); }
+
+  .email-form input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    outline: none;
+    min-width: 0;
+  }
+
+  .email-form input::placeholder { color: var(--muted); font-weight: 400; }
+
+  .email-form button {
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--text);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 99px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .2s;
+    flex-shrink: 0;
+  }
+
+  .email-form button:hover { background: var(--green); }
+
+  .success-msg {
+    display: none;
+    max-width: 460px;
+    margin: 0 auto 16px;
+    background: var(--green-bg);
+    border: 1px solid var(--green-mid);
+    border-radius: 16px;
+    padding: 16px 24px;
+    text-align: center;
+  }
+
+  .success-msg p { font-size: 15px; font-weight: 600; color: var(--green-dark); }
+  .success-msg span { font-size: 12px; font-weight: 500; color: var(--text-mid); margin-top: 4px; display: block; }
 
   .cta-note {
     font-size: 12px;
@@ -738,18 +798,19 @@
         we'll let you know the moment it's live.
       </p>
 
-      <div class="tally-wrap">
-        <iframe
-          data-tally-src="https://tally.so/embed/yPRNNg?hideTitle=1&transparentBackground=1&dynamicHeight=1"
-          loading="lazy"
-          width="100%"
-          height="120"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Roppal early access"
-          style="border:none;width:100%"
-        ></iframe>
+      <form class="email-form" id="emailForm" onsubmit="submitEmail(event)">
+        <input
+          type="email"
+          id="emailInput"
+          placeholder="Enter your email address"
+          required
+        />
+        <button type="submit">Get early access</button>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <p>🎉 You're on the list!</p>
+        <span>We'll email you the moment Roppal goes live.</span>
       </div>
 
       <p class="cta-note">No spam. Unsubscribe anytime.</p>
